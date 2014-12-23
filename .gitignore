@@ -1,5 +1,6 @@
 # Script files
 *.sh
+*.opensdf
 
 # Compiled Object files
 *.slo
