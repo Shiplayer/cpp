@@ -2,11 +2,11 @@
 #include <cstdlib>
 #include <ctime>
 
-Cards::Cards() /*: MIN_COLOR(1), MAX_COLOR(4), MIN_NUMBER(2), MAX_NUMBER(14) */{
+Cards::Cards() : MIN_COLOR(1), MAX_COLOR(4), MIN_NUMBER(2), MAX_NUMBER(14) {
 
 }
 
-Cards::Cards(int color, int number) {
+Cards::Cards(int color, int number) : MIN_COLOR(1), MAX_COLOR(4), MIN_NUMBER(2), MAX_NUMBER(14) {
 	this->color = color;
 	this->number = number;
 }
