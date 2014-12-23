@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include "Cards.h"
 
 using namespace std;
 
@@ -10,6 +11,9 @@ class Player{
 private:
 	static int count;
 	string name;
+	Cards *cards;
+	const int MAX_CARDS;
+	const int MIN_CARDS;
 public:
 	Player();
 
