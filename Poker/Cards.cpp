@@ -17,3 +17,7 @@ Cards Cards::getCards(){
 	int cardsNumber = rand() % MAX_NUMBER + MIN_NUMBER;
 	return new Cards(cardsColor, cardsNumber);
 }
+
+/* 
+ * а вот это написано в ветке Player
+*/
