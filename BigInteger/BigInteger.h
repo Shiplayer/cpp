@@ -29,7 +29,7 @@ public:
 //	BigInteger &operator+(BigInteger const&);
 	BigInteger operator+(BigInteger const&) const; //  :(
 //	BigInteger &operator-(BigInteger const&);
-//	BigInteget operator-(BigInteger const&) const; //  :(
+	BigInteger operator-(BigInteger const&) const; //  :(
 //	BigInteger &operator*(BigInteger const&);
 //	BigInteger operator*(BigInteger const&) const; //  :(
 //	BigInteger &operator+=(BigInteger const&);
