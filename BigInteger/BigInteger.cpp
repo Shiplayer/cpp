@@ -20,20 +20,18 @@ BigInteger::BigInteger(int value){
 		number.push_back(value % 10);
 		value /= 10;
 	}
-	//reverse(number.begin(), number.end());
-	
 }
 
 BigInteger::BigInteger(string const value){
 	if(value[0] == '-'){
 		sign = true;
-		//value.erase(value.begin());
+		
 	} else sign = false;
 	for(size_t i = 0; i < value.size(); i++){
 		if(value[i] == '-') continue;
 		if(value[i] >= '0' && value[i] <= '9')
 			number.push_back(value[i] - '0');
-		//else throw invalid_argument("Only numbers!");
+		else throw invalid_argument("Only numbers!");
 	}
 	reverse(number.begin(), number.end());
 }
@@ -49,10 +47,6 @@ void BigInteger::print_numbers(){
 	}
 	cout<<endl;
 }
-
-/*BigInteger& BigInteger::operator+(BigIntger const &right){
-	
-}*/
 
 string to_string(BigInteger const& value){
 	string buf = "";
@@ -81,37 +75,24 @@ BigInteger BigInteger::operator+(BigInteger const& right) const{
 	BigInteger ans = *this;
 
 	int buf = 0;
+	bool sign;
 
 	if(ans.sign ^ right.sign){
-		BigInteger buf_right = right;
-		ans = ans - right;
-		/*bool sign = false;
 		if(ans.number.size() == right.number.size()){
-			for(size_t i = ans.number.size(); i > 0; i--){
-				if(ans.number[i] > right.number.size())
-					sign = (ans.number[i] > right.number[i] ? ans.sign : right.sign);
-			}
-			for(size_t i = 0; i < ans.number.size(); i++){
-				cout<<ans.number[i] << " vs " << right.number[i] <<endl;
-				buf += (ans.sign ? -ans.number[i] : ans.number[i]) + (right.sign ? -right.number[i] : right.number[i]);
-				cout << "buf1: " << buf;
-				if(buf < 0){
-					buf = (buf + 10)*(-1);
-				}
-				cout << "\tbuf2: " << buf;
-				ans.number[i] = (buf < 0 ? -buf : buf)  % 10;
-				buf /= 10;
-				cout << "\tbuf3: " << buf << endl;
-			}
 			for(size_t i = ans.number.size(); i > 0; i--)
-				if(ans.number[i - 1] != 0){
-					ans.number.erase(ans.number.begin() + i, ans.number.end());
-					break;
-				}
-			 		
-		} //else if(ans.number.size() > right.number.size()){
-			
-		//}*/
+				if(ans.number[i - 1] != right.number[i - 1]) { sign = (ans.number[i - 1] > right.number[i - 1] ? ans.sign : right.sign); break; }
+		} else 
+			sign = (ans.number.size() > right.number.size() ? ans.sign : right.sign);
+		BigInteger buf_right = right;
+		buf_right.sign = false;
+		ans.sign = false;
+		ans = ans - buf_right;
+		for(size_t i = ans.number.size(); i > 1 && ans.number.size() > 1; i--)
+			if(ans.number[i-1] != 0){
+				ans.number.erase(ans.number.begin() + i, ans.number.end());
+				break;
+			}
+		ans.sign = sign;
 		return ans;
 	}
 	
@@ -122,7 +103,6 @@ BigInteger BigInteger::operator+(BigInteger const& right) const{
 
 	for(size_t i = 0; i < size; i++){
 		buf += (i < ans.number.size() ? ans.number[i] : 0)+ (i < right.number.size() ? right.number[i] : 0);
-		cout<<buf<<endl;
 		result.push_back(buf % 10);
 		buf /= 10;
 	}
@@ -137,8 +117,9 @@ BigInteger BigInteger::operator+(BigInteger const& right) const{
 BigInteger BigInteger::operator-(BigInteger const &right) const {
 	BigInteger ans = *this;
 	int buf = 0;
+	bool sign;
 	if(ans.sign ^ right.sign){
-		bool sign = ans.sign & !right.sign; 
+		sign = ans.sign & !right.sign; 
 		BigInteger buf_right = right;
 		ans.sign = false;
 		buf_right.sign = false;
@@ -151,12 +132,12 @@ BigInteger BigInteger::operator-(BigInteger const &right) const {
 		for(size_t i = ans.number.size(); i > 0; i--)
 			if(ans.number[i-1] != right.number[i-1]){
 				flag = ans.number[i-1] > right.number[i-1];
+				sign = flag ? ans.sign : right.sign;
+				cout<<"sign: " << sign<< " vs " << right.sign << endl;
 				break;
 			}
 	} else 
 		flag = ans.number.size() > right.number.size();
-
-	cout<<flag<<endl;
 	if(!(ans.sign ^ right.sign)){
 		int digit = 0;
 		if(flag){
@@ -173,7 +154,6 @@ BigInteger BigInteger::operator-(BigInteger const &right) const {
 		} else {
 			for(size_t i = 0; i < right.number.size(); i++){
 				buf += right.number[i] - (i < ans.number.size() ? ans.number[i] : 0) - digit;
-				cout<<"buf: " << buf<<endl;
 				digit = 0;
 				if(buf < 0){
 					buf += 10;
@@ -185,10 +165,54 @@ BigInteger BigInteger::operator-(BigInteger const &right) const {
 					ans.number.push_back(buf%10);
 				buf = 0;
 			}
-			ans.sign = false;
 		}
-	} else{
-		int digit = 0;
+	}
+	ans.sign = sign;
+	for(size_t i = ans.number.size(); i > 0 && ans.number.size() > 1; i--){
+		if(ans.number[i - 1] != 0){
+			ans.number.erase(ans.number.begin() + i, ans.number.end());
+			break;
+		}
 	}
 	return ans;	
+}
+
+BigInteger BigInteger::operator*(BigInteger const &right) const{
+	BigInteger left = *this;
+	BigInteger ans;
+	BigInteger buf;
+	buf.number.pop_back();
+	int b = 0;
+	for(size_t i = 0; i < right.number.size(); i++){
+		for(size_t j = 0; j < i; j++)
+			buf.number.push_back(0);
+		for(size_t j = 0; j < left.number.size(); j++){
+			b += right.number[i] * left.number[j];
+			buf.number.push_back(b % 10);
+			b /= 10;
+		}
+		while(b != 0){
+			buf.number.push_back(b%10);
+			b/=10;
+		}
+		ans = ans + buf;
+		buf.number.clear();
+	}
+	ans.sign = left.sign ^ right.sign;
+	return ans;
+}
+
+BigInteger &BigInteger::operator+=(BigInteger const &right){
+	*this = *this + right;
+	return *this;
+}
+
+BigInteger &BigInteger::operator-=(BigInteger const &right){
+	*this = *this - right;
+	return *this;
+}
+
+BigInteger &BigInteger::operator*=(BigInteger const &right){
+	*this = *this * right;
+	return *this;
 }

@@ -5,17 +5,10 @@
 using namespace std;
 
 int main(int argc, char const* argv[]){
-	BigInteger big;
-	cout<< "big: ";
-	cin>>big;
-	BigInteger big2;
-	cout<< "big2: ";
-	cin>> big2;
-	cout<< "result sub: " << big - big2<<endl;
-	cout<<"big: ";
-	cin>>big;
-	cout<<"big2: ";
-	cin>>big2;
-	cout<<"result add: " << big + big2 <<endl;
+	const BigInteger big("12341");
+	const BigInteger big2(15);
+	cout<< big + big2 <<endl;
+	cout<< big - big2 <<endl;
+	cout<< big * big2 <<endl;
 	return 0;
 }

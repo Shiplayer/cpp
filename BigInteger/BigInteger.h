@@ -27,14 +27,14 @@ public:
 //	BigInteger operator+(const BigInteger& left, const BigInteger& right);
 
 //	BigInteger &operator+(BigInteger const&);
-	BigInteger operator+(BigInteger const&) const; //  :(
+	BigInteger operator+(BigInteger const&) const;
 //	BigInteger &operator-(BigInteger const&);
-	BigInteger operator-(BigInteger const&) const; //  :(
+	BigInteger operator-(BigInteger const&) const; 
 //	BigInteger &operator*(BigInteger const&);
-//	BigInteger operator*(BigInteger const&) const; //  :(
-//	BigInteger &operator+=(BigInteger const&);
-//	BigInteger &operator-=(BigInteger const&);
-//	BigInteger &operator*=(BigInteger const&);
+	BigInteger operator*(BigInteger const&) const; 
+	BigInteger &operator+=(BigInteger const&);
+	BigInteger &operator-=(BigInteger const&);
+	BigInteger &operator*=(BigInteger const&);
 	BigInteger &operator=(BigInteger const &right) = default;
 };
 
