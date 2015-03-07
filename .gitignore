@@ -33,3 +33,6 @@
 *.exe
 *.out
 *.app
+BigInteger
+Poker
+DFS_testing
