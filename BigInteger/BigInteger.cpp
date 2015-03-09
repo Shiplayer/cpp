@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <algorithm>
+#include <stdexcept>
 #include "BigInteger.h"
 
 using namespace std;
