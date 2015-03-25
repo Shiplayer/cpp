@@ -1,5 +1,6 @@
 #Temp files
 *.swp
+*.pro.user
 
 # Script files
 *.sh
